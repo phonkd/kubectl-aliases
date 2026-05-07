@@ -37,6 +37,29 @@ alias kgwf='kubectl get --watch -f'
 
 See [the full list](.kubectl_aliases).
 
+### Nix flake (home-manager)
+
+```nix
+{
+  inputs.kubectl-aliases.url = "github:ahmetb/kubectl-aliases";
+
+  outputs = { home-manager, kubectl-aliases, ... }: {
+    homeConfigurations.you = home-manager.lib.homeManagerConfiguration {
+      modules = [
+        kubectl-aliases.homeManagerModules.default
+        {
+          programs.zsh.enable = true;
+          programs.kubectl-aliases.enable = true;
+        }
+      ];
+    };
+  };
+}
+```
+
+Aliases are merged into `programs.zsh.shellAliases`. Disable with
+`programs.kubectl-aliases.zshIntegration.enable = false;`.
+
 ### Installation
 
 You can directly download the [`.kubectl_aliases` file](https://raw.githubusercontent.com/ahmetb/kubectl-aliases/master/.kubectl_aliases)
